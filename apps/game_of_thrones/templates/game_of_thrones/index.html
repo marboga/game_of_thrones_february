@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A Real Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <style media="screen">
+      .gold {
+        background-color: gold;
+      }
+      .red {
+        background-color: red;
+      }
+      .silver {
+        background-color: silver;
+      }
+      .blue {
+        background-color: blue;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Wow! A real page!</h1>
+    <h3>My username is: {{ request.session.name }} </h3>
+    <ul>
+      {% for person in people %}
+      <li>{{ person }} | {{ person.weapon }} {{ person.evil_scale }} <span class="{{ person.house.color_1 }}">{{ person.house.name }}</span></li>
+      {% endfor %}
+    </ul>
+
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+
+    <form class="" action="/process" method="post">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" name="first_name" value="">
+      <label for="evil_scale">Evil Scale:</label>
+      <input type="number" name="evil_scale" value="">
+      <label for="weapon">Weapon:</label>
+      <input type="text" name="weapon" value="">
+      <label for="house">House:</label>
+      <select class="house" name="house">
+        {% for house in houses %}
+          <option value="{{ house.name }}">{{ house.name }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" name="submit" value="Submit!~!">
+    </form>
+
+    <form class="" action="/create_house" method="post">
+      {% csrf_token %}
+      <label for="name">Name:</label>
+      <input type="text" name="name" value="">
+      <label for="words">words:</label>
+      <input type="text" name="words" value="">
+      <label for="banner">banner:</label>
+      <input type="text" name="banner" value="">
+      <label for="color_1">color_1:</label>
+      <input type="text" name="color_1" value="">
+      <label for="color_2">color_2:</label>
+      <input type="text" name="color_2" value="">
+      <input type="submit" name="house_create" value="Create House">
+    </form>
+
+  </body>
+</html>
