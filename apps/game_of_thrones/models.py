@@ -64,7 +64,7 @@ class User(models.Model):
 
 class Region(models.Model):
     name = models.CharField(max_length=200)
-    houses = models.ForeignKey(House, related_name="home_region")
+    houses = models.ForeignKey(House, related_name="home_region", null=True)
     climate = models.CharField(max_length=200)
     known_for = models.CharField(max_length=200)
     #adjacent_region

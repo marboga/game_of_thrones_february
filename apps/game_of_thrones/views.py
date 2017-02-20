@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .models import User, House, Region
+from .models import User, House
 
 # Create your views here.
 def index(request):
@@ -12,7 +12,7 @@ def index(request):
     }
     return render(request, 'game_of_thrones/index.html', context)
 
-def process(request):
+def create_user(request):
     if request.method == 'POST':
         print request.POST, "<<<--- here is post data"
 
