@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import User, House
+from ..regions.models import Region
 
 # Create your views here.
 def index(request):
@@ -9,24 +10,24 @@ def index(request):
         'first_name': 'George',
         'people': User.objects.all(),
         'houses': House.objects.all(),
+        'regions': Region.objects.all(),
     }
     return render(request, 'game_of_thrones/index.html', context)
 
 def create_user(request):
     if request.method == 'POST':
-        print request.POST, "<<<--- here is post data"
+        success, returned_data = User.objects.create_new_user(request.POST)
 
-        returned_tuple = User.objects.create_new_user(request.POST)
-
-        print returned_tuple, "this is (boolean, error list or user object)"
-        if returned_tuple[0] == True:
-            request.session['name'] = returned_tuple[1].first_name
-            return redirect('/')
+        if success == True:
+            request.session.pop('formdata')
+            request.session['name'] = returned_data.first_name
+            return redirect('house:index')
         else:
-            for err in returned_tuple[1]:
+            for err in returned_data:
                 messages.error(request, err)
+            request.session['formdata'] = request.POST
 
-    return redirect('/')
+    return redirect('house:index')
 
 def success(request):
     pass
@@ -41,4 +42,4 @@ def create_house(request):
             color_2=request.POST['color_2'],
         )
 
-    return redirect('/')
+    return redirect('house:index')
