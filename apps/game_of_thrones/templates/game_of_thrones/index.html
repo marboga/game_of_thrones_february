@@ -17,15 +17,31 @@
       .blue {
         background-color: blue;
       }
-
+      .black {
+        background-color: black;
+        color: white;
+      }
+      .yellow {
+        background-color: yellow;
+      }
+      .color {
+        padding: 8px;
+        border-radius: 8px;
+      }
+      form {
+        display: inline-block;
+        padding: 10%;
+        padding-right: 30px;
+        vertical-align: top;
+      }
     </style>
   </head>
   <body>
-    <h1>Wow! A real page!</h1>
-    <h3>My username is: {{ request.session.name }} </h3>
+    <h1>The Game of Thrones</h1>
+    <h3>Last character added: {{ request.session.name }} </h3>
     <ul>
       {% for person in people %}
-      <li>{{ person }} | {{ person.weapon }} {{ person.evil_scale }} <span class="{{ person.house.color_1 }}">{{ person.house.name }}</span></li>
+      <li>{{ person.evil_scale }}: {{ person }} <span class="{{ person.house.color_1 }} color">{{ person.house.name }}</span> | {{ person.house.words }} {{ person.password }}</li>
       {% endfor %}
     </ul>
 
@@ -33,25 +49,34 @@
       <p>{{ message }}</p>
     {% endfor %}
 
-    <form class="" action="/process" method="post">
+    {% for region in regions %}
+      <!-- <p> region </p> -->
+    {% endfor %}
+
+    <form class="" action="{% url 'house:create_user' %}" method="post">
       {% csrf_token %}
+      <h4>Character</h4>
       <label for="name">Name:</label>
-      <input type="text" name="first_name" value="">
+      <input type="text" name="first_name" value="{{ request.session.formdata.first_name }}">
       <label for="evil_scale">Evil Scale:</label>
-      <input type="number" name="evil_scale" value="">
+      <input type="number" name="evil_scale" value="{{ request.session.formdata.evil_scale }}">
       <label for="weapon">Weapon:</label>
       <input type="text" name="weapon" value="">
+      <label for="password">Passcode:</label>
+      <input type="text" name="password" value="">
       <label for="house">House:</label>
       <select class="house" name="house">
         {% for house in houses %}
           <option value="{{ house.name }}">{{ house.name }}</option>
         {% endfor %}
       </select>
-      <input type="submit" name="submit" value="Submit!~!">
+      <label for=""></label>
+      <input type="submit" class="button-primary" name="submit" value="Submit!~!">
     </form>
 
-    <form class="" action="/create_house" method="post">
+    <form class="" action="{% url 'house:create_house' %}" method="post">
       {% csrf_token %}
+      <h4>House</h4>
       <label for="name">Name:</label>
       <input type="text" name="name" value="">
       <label for="words">words:</label>
@@ -62,7 +87,22 @@
       <input type="text" name="color_1" value="">
       <label for="color_2">color_2:</label>
       <input type="text" name="color_2" value="">
-      <input type="submit" name="house_create" value="Create House">
+      <label for=""></label>
+      <input class="button-primary" type="submit" name="house_create" value="Create House">
+    </form>
+
+    <form class="" action="{% url 'region:create_region' %}" method="post">
+      {% csrf_token %}
+      <h4>Region</h4>
+      <label for="name">Name:</label>
+      <input type="text" name="name" value="">
+      <label for="climate">Climate:</label>
+      <input type="text" name="climate" value="">
+      <label for="known_for">Known For:</label>
+      <input type="text" name="known_for" value="">
+      <label for=""></label>
+      <input type="submit" name="submit" value="Create Region">
+
     </form>
 
   </body>
