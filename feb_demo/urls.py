@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^', include('apps.game_of_thrones.urls')),
+    url(r'^regions/', include('apps.regions.urls', namespace="region")),
+    url(r'^', include('apps.game_of_thrones.urls', namespace="house")),
 ]

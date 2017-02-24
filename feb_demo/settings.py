@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.regions',
     'apps.game_of_thrones',
     'django.contrib.admin',
     'django.contrib.auth',
